@@ -134,7 +134,7 @@ static NSDictionary *YTPlaybackFixClientContext(void)
 %hook YTIClientInfo
 
 - (id)_init {
-    self = %orig;
+    %orig;
     if (self) {
         @try {
             [(id)self setValue:@(75) forKeyPath:@"clientName"];
