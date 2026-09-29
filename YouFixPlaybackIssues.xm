@@ -67,17 +67,17 @@ static NSString * const kTVSimplyNumericClient = @"75";
 
 static BOOL YTPlaybackFixSpoofEnabled(void)
 {
-    NSUserDefaults *defaults = [UserDefaults.standardUserDefaults];
-    if (![defaults forKey:YTPlaybackFixSpoofEnabledKey]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults objectForKey:YTPlaybackFixSpoofEnabledKey]) {
         return YES;
     }
     return [defaults boolForKey:YTPlaybackFixSpoofEnabledKey];
 }
 
-static Integer YTPlaybackFixSpoofClientMode(void)
+static NSInteger YTPlaybackFixSpoofClientMode(void)
 {
-    NSUserDefaults *defaults = [UserDefaults.standardUserDefaults];
-    if (![defaults forKey:YTPlaybackFixSpoofClientModeKey]) {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults objectForKey:YTPlaybackFixSpoofClientModeKey]) {
         return 0;
     }
     return [defaults integerForKey:YTPlaybackFixSpoofClientModeKey];
@@ -566,7 +566,7 @@ static NSString *YTExtractVideoIdFromRequest(NSURL *URL)
 
 %hook GTMSessionFetcher
 
-- (idinitWithRequest:(id)request
+- (id)initWithRequest:(id)request
 {
     if (!YTPlaybackFixSpoofEnabled()) return %orig(request);
     if (![request isinstance:[NSURLRequest class]]) return %orig(request);
@@ -584,7 +584,7 @@ static NSString *YTExtractVideoIdFromRequest(NSURL *URL)
     return %orig(request);
 }
 
-- (idinitWithRequest:(id)request
+- (id)initWithRequest:(id)request
       configuration:(id)configuration
 {
     if (!YTPlaybackFixSpoofEnabled()) {
