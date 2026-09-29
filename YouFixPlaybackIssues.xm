@@ -137,16 +137,16 @@ static NSDictionary *YTPlaybackFixClientContext(void)
     self = %orig;
     if (self) {
         @try {
-            [self setValue:@(75) forKeyPath:@"clientName"];
-            [self setValue:@"1.1" forKeyPath:@"clientVersion"];
-            [self setValue:@"en" forKeyPath:@"hl"];
-            [self setValue:@"USA" forKeyPath:@"gl"];
-            [self setValue:kMorpheOSName forKeyPath:@"osName"];
-            [self setValue:kMorpheOSVersion forKeyPath:@"osVersion"];
-            [self setValue:kMorpheDeviceMake forKeyPath:@"deviceMake"];
-            [self setValue:kMorpheDeviceModel forKeyPath:@"deviceModel"];
-            [self setValue:@"UTC" forKeyPath:@"timeZone"];
-            [self setValue:@(0) forKeyPath:@"utcOffsetMinutes"];
+            [(id)self setValue:@(75) forKeyPath:@"clientName"];
+            [(id)self setValue:@"1.1" forKeyPath:@"clientVersion"];
+            [(id)self setValue:@"en" forKeyPath:@"hl"];
+            [(id)self setValue:@"USA" forKeyPath:@"gl"];
+            [(id)self setValue:kMorpheOSName forKeyPath:@"osName"];
+            [(id)self setValue:kMorpheOSVersion forKeyPath:@"osVersion"];
+            [(id)self setValue:kMorpheDeviceMake forKeyPath:@"deviceMake"];
+            [(id)self setValue:kMorpheDeviceModel forKeyPath:@"deviceModel"];
+            [(id)self setValue:@"UTC" forKeyPath:@"timeZone"];
+            [(id)self setValue:@(0) forKeyPath:@"utcOffsetMinutes"];
         } @catch (NSException *e) {
             // KVC may not work on protobuf internals
         }
@@ -337,7 +337,7 @@ static NSString *YTReplaceQueryParameter(NSString *urlString, NSString *paramete
 
     if ([regex numberOfMatchesInString:urlString options:0 range:range] > 0) {
         NSString *replacement = [NSString stringWithFormat:@"$1%@=%@", parameter, value];
-        return [regex substringByReplacingMatchesInString:urlString options:0 range:range withTemplate:replacement];
+        return [regex stringByReplacingMatchesInString:urlString options:0 range:range withTemplate:replacement];
     }
 
     NSRange fragmentRange = [urlString rangeOfString:@"#"];
@@ -820,7 +820,7 @@ willPerformHTTPRedirection:(id)response
     if (YTPlaybackFixSpoofEnabled()) {
         NSString *videoId = nil;
         SEL playerConfigSel = NSSelectorFromString(@"playerConfig");
-        if ([self respondsToSelector:playerConfigSel]) {
+        if ([(id)self respondsToSelector:playerConfigSel]) {
             id playerConfig = ((id (*)(id, SEL))objc_msgSend)(self, playerConfigSel);
             if (playerConfig) {
                 SEL videoIdSel = NSSelectorFromString(@"videoId");
@@ -831,7 +831,7 @@ willPerformHTTPRedirection:(id)response
         }
         if (!videoId) {
             SEL videoDetailsSel = NSSelectorFromString(@"videoDetails");
-            if ([self respondsToSelector:videoDetailsSel]) {
+            if ([(id)self respondsToSelector:videoDetailsSel]) {
                 id videoDetails = ((id (*)(id, SEL))objc_msgSend)(self, videoDetailsSel);
                 if (videoDetails) {
                     SEL videoIdSel = NSSelectorFromString(@"videoId");
