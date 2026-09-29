@@ -547,7 +547,7 @@ static NSString *YTExtractVideoIdFromRequest(NSURL *URL)
 //                          PART 9: HOOKS (ORIGINAL - UNCHANGED)
 // ============================================================================
 
-%hookNSMutableURLRequest
+%hook NSMutableURLRequest
 
 - (id)initWithURL:(NSURL *)URL cachePolicy:(unsigned long long)cachePolicy timeoutInterval:(double)timeoutInterval
 {
