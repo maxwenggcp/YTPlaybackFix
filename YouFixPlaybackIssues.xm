@@ -468,14 +468,14 @@ static void YTApplyPlaybackSpoof(NSMutableURLRequest *request)
 //                          PART 8: RESPONSE STREAMING DATA REPLACEMENT (NEW)
 // ============================================================================
 
-static NSArray *YTCreateTVFormats(NSString *videoId)
+@interface NSObject (YTPlaybackFix) - (void)setMimeType:(NSString *)m; - (void)setQualityLabel:(NSString *)q; - (void)setItag:(int)i; - (void)setHeight:(int)h; - (void)setFps:(int)f; - (void)setAdaptiveFormatsArray:(NSArray *)a; - (void)setFormatsArray:(NSArray *)a; - (NSArray *)adaptiveFormatsArray; @end static NSArray *YTCreateTVFormats(NSString *videoId)
 {
     NSMutableArray *formats = [NSMutableArray array];
 
     // Video 1080p HLS (iOS compatible)
     id video1080 = [[NSClassFromString(@"YTIFormatStream") alloc] init];
     if (video1080) {
-        [video1080 setURL:[NSString stringWithFormat:@"https://manifest.googlevideo.com/api/manifest/hls_variant/playlist/index.m3u8?video_id=%@", videoId]];
+        [video1080 setURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://manifest.googlevideo.com/api/manifest/hls_variant/playlist/index.m3u8?video_id=%@", videoId]]];
         [video1080 setMimeType:@"application/vnd.apple.mpegurl"];
         [video1080 setQualityLabel:@"1080p"];
         [video1080 setItag:137];
@@ -489,7 +489,7 @@ static NSArray *YTCreateTVFormats(NSString *videoId)
     if (video720) {
         video720 = [video720 init];
         if (video720) {
-            [video720 setURL:[NSString stringWithFormat:@"https://manifest.googlevideo.com/api/manifest/hls_variant/playlist/index.m3u8?video_id=%@", videoId]];
+            [video720 setURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://manifest.googlevideo.com/api/manifest/hls_variant/playlist/index.m3u8?video_id=%@", videoId]]];
             [video720 setMimeType:@"application/vnd.apple.mpegurl"];
             [video720 setQualityLabel:@"720p"];
             [video720 setItag:136];
@@ -504,7 +504,7 @@ static NSArray *YTCreateTVFormats(NSString *videoId)
     if (audio) {
         audio = [audio init];
         if (audio) {
-            [audio setURL:[NSString stringWithFormat:@"https://manifest.googlevideo.com/api/manifest/hls_variant/playlist/index.m3u8?video_id=%@", videoId]];
+            [audio setURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://manifest.googlevideo.com/api/manifest/hls_variant/playlist/index.m3u8?video_id=%@", videoId]]];
             [audio setMimeType:@"audio/mp4; codecs=mp4a.40.2"];
             [audio setItag:140];
             [formats addObject:audio];
