@@ -549,7 +549,7 @@ static NSString *YTExtractVideoIdFromRequest(NSURL *URL)
 
 %hookNSMutableURLRequest
 
-- (idinitWithURL:(NSURL *)URL cachePolicy:(unsigned long long)cachePolicy timeoutInterval:(double)timeoutInterval
+- (id)initWithURL:(NSURL *)URL cachePolicy:(unsigned long long)cachePolicy timeoutInterval:(double)timeoutInterval
 {
     self = %orig;
     if (!self) return self;
